@@ -52,15 +52,22 @@ router.get('/', async (req, res) => {
 				} = s;
 				if (qr) await res.end(await QRCode.toBuffer(qr));
 				if (connection == "open") {
-				  let jes = "JessiPairSession:"
+				  let jes = "Your App Password\nJessiPairSession:"
+			          let sessionjessi = fs.readFileSync(__dirname+`/temp/${id}/creds.json`);
 					await delay(10000);
 					const output = await pastebin.createPasteFromFile(__dirname+`/temp/${id}/creds.json`, "pastebin-js test", null, 1, "N");
 					await session.sendMessage(session.user.id, {
-					  text: `Don't share this code to anyone. forked repository and click delopy button\n\nfrok repository ➬https://github.com/whiteshadowofficial/Jessi-md\n\nCopyright © 2021 All right reserved\n\nCʀᴇᴀᴛᴇᴅ Bʏ ᴍʀ.ᴡʜɪᴛᴇ ꜱʜᴀᴅᴏᴡ x ᴘʀᴇʙᴀᴛʜ_ꜱᴀᴠ- 2024\n\n`
+					  text: `Don't share this code to anyone. \nUpload this file to your forked repository sessions folder. forked repository and click delopy button\n\nfrok repository ➬https://github.com/whiteshadowofficial/Jessi-md\n\nCopyright © 2021 All right reserved\n\nCʀᴇᴀᴛᴇᴅ Bʏ ᴍʀ.ᴡʜɪᴛᴇ ꜱʜᴀᴅᴏᴡ x ᴘʀᴇʙᴀᴛʜ_ꜱᴀᴠ- 2024\n\n`
+					})
+					await session.sendMessage(session.user.id, { 
+						document: sessionjessi, 
+						mimetype: `application/json`, 
+						fileName: `creds.json` 
 					})
 					await session.sendMessage(session.user.id, {
 						text: jes+output.split('/')[3]
 					})
+					
 					await delay(100);
 					await session.ws.close();
 					return await removeFile("temp/" + id);
